@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block styles %}
+    <link href="{{ MEDIA_URL }}css/tabs.css" rel="stylesheet" type="text/css" />
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+    
+        //When page loads...
+        $(".tab_content").hide(); //Hide all content
+        $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+        $(".tab_content:first").show(); //Show first tab content
+
+        //On Click Event
+        $("ul.tabs li").click(function() {
+
+            $("ul.tabs li").removeClass("active"); //Remove any "active" class
+            $(this).addClass("active"); //Add "active" class to selected tab
+            $(".tab_content").hide(); //Hide all tab content
+
+            var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+            $(activeTab).fadeIn(); //Fade in the active ID content
+            return false;
+        });
+        
+        $(".doc_icon").hover(
+            function () {
+                $(this).addClass("hover");
+            },
+            function () {
+                $(this).removeClass("hover");
+            }
+        );
+    
+    });
+</script>
+{% endblock %}
+{% block content %}
+<div>
+    
+    <p><span class="startup_header"><strong class="startup_name">{{ startup.name }}</strong> - <a href="/admin/dashboard/startup/{{ startup.id }}">edit</a></span>
+    </p>
+    <ul class="tabs">
+        <li><a href="#overview"><span>Overview</span></a></li>
+        <li><a href="#people"><span>People</span></a></li>
+        <li><a href="#documentation"><span>Documentation</span></a></li>
+        <li><a href="#reviews"><span>Reviews</span></a></li>
+    </ul>
+    <div class="tab_container">
+        <div id="overview" class="tab_content">
+            Added on {{startup.date_added}}, you can contact them at <a href="mailto:{{ startup.email }}">{{ startup.email }}</a>.
+            <table border="0px" class="info_table">
+                <col id="question" width="60px" />
+                <col id="answer" style="color:red" />
+                {% if startup.idea %}
+                    <tr>
+                        <td>Idea</td><td>{{ startup.idea }}</td>
+                    </tr>
+                {% endif %}
+                {% if startup.problem %}
+                    <tr>
+                        <td>Problem</td><td>{{ startup.problem }}</td>
+                    </tr>
+                {% endif %}
+                {% if startup.users %}
+                    <tr>
+                        <td>Users</td><td>{{ startup.users }}</td>
+                    </tr>
+                {% endif %}
+                {% if startup.competitors %}
+                    <tr>
+                        <td>Competitors</td><td>{{ startup.competitors }}</td>
+                    </tr>
+                {% endif %}
+                {% if startup.money %}
+                    <tr>
+                        <td>Money</td><td>{{ startup.money }}</td>
+                    </tr>
+                {% endif %}
+                {% if startup.milestones %}
+                    <tr>
+                        <td>Milestones</td><td>{{ startup.milestones }}</td>
+                    </tr>
+                {% endif %}
+                
+            </table>
+        </div>
+        <div id="people" class="tab_content">
+            {% for person in startup.people.all %}
+                <div class="person">
+                    <p class="person-header"><strong class="name">{{ person.full_name }}</strong> - <a href="mailto:{{ person.email }}">{{ person.email }}</a>
+                    {% if person.linkedin %} <br /><a href="{{ person.linkedin }}">{{ person.linkedin }}</a> {% endif %}
+                    </p>
+                    
+                    <p class="background">{{ person.background }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="documentation" class="tab_content">
+            <ul class="docs">
+                {% if startup.term_sheet %}
+                    <li>
+                    <div class="doc_icon">
+                        <a href="{{ startup.term_sheet.url }}"><img src="{{ MEDIA_URL }}icons/folder_icon.png"></a>
+                            
+                            <span class="label">Term Sheet</span>
+                    </li>
+                {% endif %}
+                {% if startup.slide_deck %}
+                    <li>
+                    <div class="doc_icon">
+                        <a href="{{ startup.slide_deck.url }}"><img src="{{ MEDIA_URL }}icons/slidedeck_icon.png"></a>
+                            <span class="label">Slide Deck</span>
+                    </div>
+                    </li>
+                {% endif %}
+                {% if startup.one_pager %}
+                    <li>
+                    <div class="doc_icon">
+                        <a href="{{ startup.one_pager.url }}"><img src="{{ MEDIA_URL }}icons/onepager_icon.png"/></a>
+                            <span class="label">One Pager</span>
+                      
+                    </div>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div id="reviews" class="tab_content">
+            <p><strong>Reviews for {{ startup.name }}: </strong>(<a href="/admin/dashboard/review/add/">Add Review</a>)</p>
+            {% if reviews %}
+                {% for review in reviews %}
+                    <div class="review">
+                        <span class="review_header">{{ review.reviewer.first_name }} on {{ review.date }} - {{ review.get_next_step_display }}</span>
+                        <p class="review_comments">{{ review.comments }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No reviews to display.</p>
+            {% endif %}
+        </div>   
+    </div>
+</div>
+    <div class="news">
+        <iframe frameborder=0 marginwidth=0 marginheight=0 border=0 style="border:0;margin:0;width:728px;height:90px;" src="http://www.google.com/uds/modules/elements/newsshow/iframe.html?rsz=large&format=728x90&q={{ startup.name }}&element=true" scrolling="no" allowtransparency="true"></iframe>
+    </div>
+{% endblock %}

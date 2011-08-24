@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd"
+    >
+<html lang="en">
+<head>
+    <title>{% block title %}Tomorrow Innovations{% endblock %}</title>
+    {% block scripts %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/master.css" />
+
+    {% block styles %}
+    {% endblock %}
+</head>
+<body>
+    <div class="header">{% block header %}{% block logo %}
+        <div id="logo"></div>
+    {% endblock %}</div>
+    <div id="navbar">
+        {% block navbar %}
+        <span class="inbar">
+            <ul>
+                <li><a href="/dashboard/"><span>Dashboard</span></a></li>
+                <li><a href="/admin/dashboard/"><span>Admin</span></a></li>
+            </ul>
+        </span>
+        {% endblock %}
+        {% endblock header %}
+    </div>
+    <div id="content">{% block content %}{% endblock %}</div>
+</body>
+</html>

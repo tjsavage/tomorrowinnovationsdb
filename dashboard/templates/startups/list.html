@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+    {% block title %}TomorrowInnovations Dashboard{% endblock %}
+    {% block scripts %}
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+    <script src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js"></script> 
+    <script type="text/javascript" src="{{ MEDIA_URL}}datatables/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            oTable = $('#table').dataTable( {
+                "bJQueryUI" : true,
+                "sPaginationType" : "full_numbers"
+	
+            } );
+            
+            
+            
+            $( oTable.fnGetNodes() ).click(
+                function() {
+                    window.location = '/dashboard/startups/' + this.id;
+                    /*
+                    $("#overlay_content").load("/dashboard/startups/" + this.id,
+                                                function() {
+                                                    $("#trigger").click();
+                                                });
+                    */
+                }
+                
+            );
+            
+            $( oTable.fnGetNodes() ).hover(
+                function() {
+                    $(this).addClass("hover");
+                },
+                function() {
+                    $(this).removeClass("hover");
+                }
+            );
+            
+            $("#trigger").overlay({
+                mask: {
+                    color: '#fff',
+                    opacity: .3
+                }
+            });
+            
+        } );
+        
+         
+         
+
+        
+    </script>
+    {% endblock %}
+    {% block styles %}
+    <style type="text/css" title="currentStyle">
+
+        @import "{{ MEDIA_URL }}css/master.css";
+        @import "{{ MEDIA_URL }}datatables/css/demo_table_jui.css";
+        @import "{{ MEDIA_URL }}jquery-ui/css/smoothness/jquery-ui-1.8.7.custom.css";
+    </style>
+    {% endblock %}
+
+    {% block content %}
+        {% if startup_list %}
+            <div id="startup_table">
+                <table id="table" class="display">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Date Added</th>
+                            <th>Status</th>
+                            <th>Next Step</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for startup in startup_list %}
+                            <tr class="{{ startup.get_priority_display }}" id="{{ startup.id }}" style="cursor:hand;">
+                                <td>{{ startup.name }}</td>
+                                <td>{{ startup.location }}</td>
+                                <td>{{ startup.date_added }}</td>
+                                <td>{{ startup.get_stage_display }}</td>
+                                <td>{{ startup.get_next_step_display }}</td>
+                                <td>{{ startup.get_priority_display }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>No startups to display.</p>
+        {% endif %}
+    
+
+    {% endblock %}
+

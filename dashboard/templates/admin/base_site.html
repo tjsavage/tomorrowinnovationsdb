@@ -1,0 +1,27 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}css/master.css" ></link>
+{% endblock %}
+
+{% block title %}{{ title }} | {% trans 'TI Dashboard Admin' %}{% endblock %}
+
+{% block branding %}
+<div class="header">{% block header %}{% block logo %}
+        <div id="logo"></div>
+    {% endblock %}</div>
+    <div id="navbar">
+        {% block navbar %}
+        <span class="inbar">
+            <ul>
+                <li><a href="/dashboard/"><span>Dashboard</span></a></li>
+                <li><a href="/admin/dashboard/"><span>Admin</span></a></li>
+            </ul>
+        </span>
+        {% endblock %}
+        {% endblock header %}
+    </div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

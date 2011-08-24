@@ -1,0 +1,22 @@
+{
+    "iTotalRecords": {{ total }},
+    "iTotalDisplayRecords": {{ list_count }},
+    "rows" : [
+        {% if startup_list %}
+            {% for startup in startup_list %}
+            {
+                "id" : "{{ startup.id }}",
+                "cell" : ["{{ startup.id }}",
+                       "{{ startup.email }}",
+                       "{{ startup.location }}",
+                       "{{ startup.date_added }}",
+                       "{{ startup.get_status_display}}",
+                       "{{ startup.get_priority_display }}",
+                       "{{ startup.get_next_step_display }}"
+                    ]
+            } {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        {% endif %}
+    ]
+}
+    

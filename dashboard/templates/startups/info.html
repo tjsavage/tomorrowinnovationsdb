@@ -1,0 +1,53 @@
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+	<link href="style.css" rel="stylesheet" type="text/css" />
+
+	<script>
+	    $(document).ready(function() {
+	    
+		//When page loads...
+		$(".tab_content").hide(); //Hide all content
+		$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+		$(".tab_content:first").show(); //Show first tab content
+	
+		//On Click Event
+		$("ul.tabs li").click(function() {
+	
+		    $("ul.tabs li").removeClass("active"); //Remove any "active" class
+		    $(this).addClass("active"); //Add "active" class to selected tab
+		    $(".tab_content").hide(); //Hide all tab content
+    
+		    var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+		    $(activeTab).fadeIn(); //Fade in the active ID content
+		    return false;
+		});
+	    
+	    });
+	</script>
+
+<div>
+		    <ul class="tabs">
+		        <li><a href="#overview"><span>Overview</span></a></li>
+			<li><a href="#documentation"><span>Documentation</span></a></li>
+			<li><a href="#reviews"><span>Reviews</span></a></li>
+		    </ul>
+		    <div class="tab_container">
+			<div id="overview" class="tab_content">
+			    <p>First tab is active by default:</p>
+			</div>
+			<div id="documentation" class="tab_content">
+			    <ul class="docs">
+			        <li> One Pager: <a href="#">link</a></li>
+			        <li> Slide Deck: <a href="#">link</a></li>
+			        <li> Business Plan: missing</li>
+			        <li> Term Sheet: <a href="#">link</a></li>
+			    </ul>
+		        </div>
+			<div id="reviews" class="tab_content"></div>
+		    </div>   
+	    </div>
+	</div>
+	    <div class="news">
+		<iframe frameborder=0 marginwidth=0 marginheight=0 border=0 style="border:0;margin:0;width:728px;height:90px;" src="http://www.google.com/uds/modules/elements/newsshow/iframe.html?rsz=large&format=728x90&q=TomorrowVentures&element=true" scrolling="no" allowtransparency="true"></iframe>
+	    </div>
