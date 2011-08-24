@@ -116,5 +116,4 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.staticfiles',
     'dashboard',
-    'south',
 )
