@@ -9,6 +9,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^$', include('dashboard.urls')),
     (r'^dashboard/', include('dashboard.urls')),
+    
+    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),

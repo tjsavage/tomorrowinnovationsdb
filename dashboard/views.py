@@ -3,35 +3,44 @@ from dashboard.models import Startup
 from dashboard.models import Review
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
     return HttpResponse("Hello index")
-    
+
+@login_required    
 def startups(request):
     startup_list = Startup.objects.all().order_by('-date_updated')
     return render_to_response('startups/list.html', {'startup_list': startup_list}, context_instance=RequestContext(request))
 
+@login_required
 def startup_detail(request, startup_id):
     startup = Startup.objects.get(id=startup_id)
     reviews = Review.objects.filter(startup=startup_id)
     return render_to_response('startups/detail_page.html', {'startup': startup, 'reviews': reviews}, context_instance=RequestContext(request))
 
+@login_required
 def review(request, new_review):
     return HttpResponse("New review")
 
+@login_required
 def review_detail(request, review_id):
     return HttpResponse("Review %s" % review_id)
 
+@login_required
 def new_review(request):
     return HttpResponse("New review")
     
-
+@login_required
 def person_detail(request, person_id):
     return HttpResponse("Person %s" % person_id)
 
+@login_required
 def people(request):
     return HttpResponse("People")
 
+@login_required
 def json_startups(request):
     startup_list = Startup.objects.all()
     total=startup_list.count()
